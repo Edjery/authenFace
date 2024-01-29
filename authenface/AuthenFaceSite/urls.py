@@ -7,4 +7,5 @@ admin.site.index_title = 'Admin'
 
 urlpatterns = [
     path('users/', views.userList),
+    path('users/<id>/', views.user),
 ]
