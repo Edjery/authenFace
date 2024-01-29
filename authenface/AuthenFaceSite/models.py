@@ -9,24 +9,24 @@ class AuthenFaceUser(models.Model):
 
 class UserImage(models.Model):
     name = models.CharField(max_length=50)
-    userId = models.OneToOneField(AuthenFaceUser, on_delete=models.CASCADE)
+    user = models.OneToOneField(AuthenFaceUser, on_delete=models.CASCADE)
 
     def __str__(self) -> str:
         return self.name
 
-class Snapshots(models.Model):
+class Snapshot(models.Model):
     name = models.CharField(max_length=50)
-    userId = models.OneToOneField(AuthenFaceUser, on_delete=models.CASCADE)
+    user = models.OneToOneField(AuthenFaceUser, on_delete=models.CASCADE)
     createdAt = models.DateField(auto_now_add=True)
 
     def __str__(self) -> str:
         return self.name
 
-class Websites(models.Model):
+class Website(models.Model):
     name = models.CharField(max_length=50)
     url = models.CharField(max_length=100)
     accountName = models.CharField(max_length=50)
-    userId = models.OneToOneField(AuthenFaceUser, on_delete=models.CASCADE)
+    user = models.OneToOneField(AuthenFaceUser, on_delete=models.CASCADE)
     createdAt = models.DateField(auto_now_add=True)
     
     def __str__(self) -> str:
