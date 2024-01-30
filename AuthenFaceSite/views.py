@@ -85,20 +85,16 @@ class SnapshotsAPI:
             case _:
                 return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
-    @api_view(['GET', 'PUT', 'DELETE'])
+    @api_view(['GET', 'DELETE'])
     def manage(request, id):
         snapshot = get_object_or_404(Snapshot, pk=id)
         match request.method:
             case 'GET':
                 serializer = SnapshotSerializer(snapshot)
-                return Response(serializer.data, status=status.HTTP_200_OK)
-            case 'PUT':
-                serializer = SnapshotSerializer(snapshot, data=request.data, partial=True)
-                serializer.is_valid(raise_exception=True)
-                serializer.save(password=request.data.get('password'))
-                return Response(serializer.data, status=status.HTTP_200_OK)
+                return Response(serializer.data, status=status.HTTP_200_OK)  
             case 'DELETE':
                 snapshot.delete()
                 return Response(status=status.HTTP_204_NO_CONTENT)
             case _:
                 return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+                
