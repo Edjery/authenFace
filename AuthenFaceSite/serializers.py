@@ -14,9 +14,9 @@ class UserImageSerializer(serializers.ModelSerializer):
 class SnapshotSerializer(serializers.ModelSerializer):
     class Meta:
         model = Snapshot
-        fields = ['id', 'user', 'createdAt']
+        fields = ['id', 'user', 'created_at']
 
 class WebsiteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Website
-        fields = ['id', 'name', 'url', 'accountName', 'user', 'createdAt']
+        fields = ['id', 'name', 'url', 'account_name', 'user', 'created_at']

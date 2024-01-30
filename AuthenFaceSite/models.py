@@ -17,7 +17,7 @@ class UserImage(models.Model):
 class Snapshot(models.Model):
     name = models.CharField(max_length=50)
     user = models.OneToOneField(AuthenFaceUser, on_delete=models.CASCADE)
-    createdAt = models.DateField(auto_now_add=True)
+    created_at = models.DateField(auto_now_add=True)
 
     def __str__(self) -> str:
         return self.name
@@ -25,9 +25,9 @@ class Snapshot(models.Model):
 class Website(models.Model):
     name = models.CharField(max_length=50)
     url = models.CharField(max_length=100)
-    accountName = models.CharField(max_length=50)
+    account_name = models.CharField(max_length=50)
     user = models.OneToOneField(AuthenFaceUser, on_delete=models.CASCADE)
-    createdAt = models.DateField(auto_now_add=True)
+    created_at = models.DateField(auto_now_add=True)
     
     def __str__(self) -> str:
         return self.name
