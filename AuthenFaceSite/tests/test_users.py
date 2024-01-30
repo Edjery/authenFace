@@ -20,7 +20,7 @@ class TestUser:
     # test PUT method
     def test_update_a_user_and_return_200(self, api_client, user_endpoint_with_id):
         new_details = { 'password': '54321' }
-        response = api_client.put(user_endpoint_with_id, new_details)
+        response = api_client.patch(user_endpoint_with_id, new_details)
         assert response.data['password'] == new_details['password']
         assert response.status_code == status.HTTP_200_OK
 

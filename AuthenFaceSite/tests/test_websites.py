@@ -24,7 +24,7 @@ class TestWebsite:
             'url': 'https://new-example.com',
             'account_name': 'new_example_account',
         }
-        response = api_client.put(website_endpoint_with_id, new_details)
+        response = api_client.patch(website_endpoint_with_id, new_details)
         assert response.data['name'] == new_details['name']
         assert response.status_code == status.HTTP_200_OK
 

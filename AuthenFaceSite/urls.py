@@ -1,13 +1,11 @@
 from django.urls import path
 from . import views
+from rest_framework.routers import DefaultRouter
 
-urlpatterns = [
-    path('users/', views.UsersAPI.manage_all),
-    path('users/<int:id>/', views.UsersAPI.manage), 
-    path('user-images/', views.UserImagesAPI.manage_all),
-    path('user-images/<int:id>/', views.UserImagesAPI.manage), 
-    path('snapshots/', views.SnapshotsAPI.manage_all),
-    path('snapshots/<int:id>/', views.SnapshotsAPI.manage), 
-    path('websites/', views.WebsiteAPI.manage_all),
-    path('websites/<int:id>/', views.WebsiteAPI.manage), 
-]
+router = DefaultRouter()
+router.register('users', views.UsersViewSet)
+router.register('user-images', views.UserImageViewSet)
+router.register('snapshots', views.SnapshotViewSet)
+router.register('websites', views.WebsiteViewSet)
+
+urlpatterns = router.urls
