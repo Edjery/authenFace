@@ -8,4 +8,6 @@ urlpatterns = [
     path('user-images/<int:id>/', views.UserImagesAPI.manage), 
     path('snapshots/', views.SnapshotsAPI.manage_all),
     path('snapshots/<int:id>/', views.SnapshotsAPI.manage), 
+    path('websites/', views.WebsiteAPI.manage_all),
+    path('websites/<int:id>/', views.WebsiteAPI.manage), 
 ]

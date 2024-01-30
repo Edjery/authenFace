@@ -98,3 +98,37 @@ class SnapshotsAPI:
             case _:
                 return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
                 
+class WebsiteAPI:
+    @api_view(['GET', 'POST'])
+    def manage_all(request):
+        match request.method:
+            case 'GET':
+                queryset = Website.objects.all()
+                serializer = WebsiteSerializer(queryset, many=True)
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            case 'POST':
+                serializer = WebsiteSerializer(data=request.data)
+                serializer.is_valid(raise_exception=True)
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            case _:
+                return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+
+    @api_view(['GET', 'PUT', 'DELETE'])
+    def manage(request, id):
+        website = get_object_or_404(Website, pk=id)
+        match request.method:
+            case 'GET':
+                serializer = WebsiteSerializer(website)
+                return Response(serializer.data, status=status.HTTP_200_OK)  
+            case 'PUT':
+                serializer = WebsiteSerializer(website, data=request.data, partial=True)
+                serializer.is_valid(raise_exception=True)
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            case 'DELETE':
+                website.delete()
+                return Response(status=status.HTTP_204_NO_CONTENT)
+            case _:
+                return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+            

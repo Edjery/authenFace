@@ -2,10 +2,10 @@ from rest_framework import status
 import pytest
 
 @pytest.mark.django_db
-class TestUser:
+class TestSnapshot:
     # test POST method
-    def test_post_a_snapshot_and_return_201(self, create_snapshot_image):
-        assert create_snapshot_image.status_code == status.HTTP_201_CREATED
+    def test_post_a_snapshot_and_return_201(self, create_snapshot):
+        assert create_snapshot.status_code == status.HTTP_201_CREATED
 
     # test GET all method
     def test_get_all_snapshot_and_return_200(self, api_client, snapshot_endpoint):

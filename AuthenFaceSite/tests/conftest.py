@@ -50,9 +50,31 @@ def new_snaphot_data(create_user) -> dict:
     return { 'name': 'example_snapshot', 'user': create_user.data['id'] }
 
 @pytest.fixture
-def create_snapshot_image(api_client, snapshot_endpoint, new_snaphot_data):
+def create_snapshot(api_client, snapshot_endpoint, new_snaphot_data):
     return api_client.post(snapshot_endpoint, new_snaphot_data)
 
 @pytest.fixture
-def snapshot_endpoint_with_id(snapshot_endpoint, create_snapshot_image) -> str:
-    return f'{snapshot_endpoint}{create_snapshot_image.data['id']}/'
+def snapshot_endpoint_with_id(snapshot_endpoint, create_snapshot) -> str:
+    return f'{snapshot_endpoint}{create_snapshot.data['id']}/'
+
+# snapshots
+@pytest.fixture
+def website_endpoint() -> str:
+    return '/authenface/websites/'
+
+@pytest.fixture
+def new_website_data(create_user) -> dict:
+    return {
+        'name': 'Example Website',
+        'url': 'https://example.com',
+        'account_name': 'example_account',
+        'user': create_user.data['id']
+    }
+
+@pytest.fixture
+def create_website(api_client, website_endpoint, new_website_data):
+    return api_client.post(website_endpoint, new_website_data)
+
+@pytest.fixture
+def website_endpoint_with_id(website_endpoint, create_website) -> str:
+    return f'{website_endpoint}{create_website.data['id']}/'

@@ -2,7 +2,7 @@ from rest_framework import status
 import pytest
 
 @pytest.mark.django_db
-class TestSnapshot:
+class TestUser:
     # test POST method
     def test_post_a_user_and_return_201(self, create_user):
         assert create_user.status_code == status.HTTP_201_CREATED
