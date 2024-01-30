@@ -7,24 +7,33 @@ from .serializers import AuthenFaceUserSerializer
 from .models import AuthenFaceUser, Snapshot, UserImage, Website
 
 
-@api_view()
-def userList(request):
-    queryset = AuthenFaceUser.objects.all()
-    serializer = AuthenFaceUserSerializer(queryset, many=True)
-    return Response(serializer.data)
+@api_view(['GET', 'POST'])
+def user_list(request):
+    match request.method:
+        case 'GET':
+            queryset = AuthenFaceUser.objects.all()
+            serializer = AuthenFaceUserSerializer(queryset, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        case 'POST':
+            serializer = AuthenFaceUserSerializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        case _:
+            return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
 @api_view(['GET', 'PUT'])
 def user(request, id):
     authenFaceUser = get_object_or_404(AuthenFaceUser, pk=id)
     match request.method:
-        case "GET":
+        case 'GET':
             serializer = AuthenFaceUserSerializer(authenFaceUser)
-            return Response(serializer.data)
-        case "PUT":
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        case 'PUT':
             serializer = AuthenFaceUserSerializer(authenFaceUser, data=request.data)
             serializer.is_valid(raise_exception=True)
             serializer.save()
-            return Response(serializer.data)
+            return Response(serializer.data, status=status.HTTP_200_OK)
         case _:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+            return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
