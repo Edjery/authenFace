@@ -8,7 +8,7 @@ def api_client():
 # users
 @pytest.fixture
 def user_endpoint() -> str:
-    return '/authenface/users/'
+    return '/api/users/'
 
 @pytest.fixture
 def new_user_data() -> dict:
@@ -25,7 +25,7 @@ def user_endpoint_with_id(user_endpoint, create_user) -> str:
 # user images
 @pytest.fixture
 def user_image_endpoint() -> str:
-    return '/authenface/user-images/'
+    return '/api/user-images/'
 
 @pytest.fixture
 def new_user_image_data(create_user) -> dict:
@@ -42,7 +42,7 @@ def user_image_endpoint_with_id(user_image_endpoint, create_user_image) -> str:
 # snapshots
 @pytest.fixture
 def snapshot_endpoint() -> str:
-    return '/authenface/snapshots/'
+    return '/api/snapshots/'
 
 @pytest.fixture
 def new_snaphot_data(create_user) -> dict:
@@ -59,7 +59,7 @@ def snapshot_endpoint_with_id(snapshot_endpoint, create_snapshot) -> str:
 # snapshots
 @pytest.fixture
 def website_endpoint() -> str:
-    return '/authenface/websites/'
+    return '/api/websites/'
 
 @pytest.fixture
 def new_website_data(create_user) -> dict:
@@ -77,3 +77,20 @@ def create_website(api_client, website_endpoint, new_website_data):
 @pytest.fixture
 def website_endpoint_with_id(website_endpoint, create_website) -> str:
     return f'{website_endpoint}{create_website.data['id']}/'
+
+# dummy users
+@pytest.fixture
+def dummy_users_endpoint() -> str:
+    return '/api/dummy-users/'
+
+@pytest.fixture
+def new_dummy_users_data() -> dict:
+    return { 'email': 'example@email.com', 'password': 'password' }
+
+@pytest.fixture
+def create_dummy_users(api_client, dummy_users_endpoint, new_dummy_users_data):
+    return api_client.post(dummy_users_endpoint, new_dummy_users_data)
+
+@pytest.fixture
+def dummy_users_endpoint_with_id(dummy_users_endpoint, create_dummy_users) -> str:
+    return f'{dummy_users_endpoint}{create_dummy_users.data['id']}/'

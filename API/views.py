@@ -1,6 +1,6 @@
 from rest_framework.viewsets import ModelViewSet
-from .serializers import AuthenFaceUserSerializer, UserImageSerializer, SnapshotSerializer, WebsiteSerializer
-from .models import AuthenFaceUser, UserImage, Snapshot, Website
+from .serializers import AuthenFaceUserSerializer, UserImageSerializer, SnapshotSerializer, WebsiteSerializer, DummyUserSerializer
+from .models import AuthenFaceUser, UserImage, Snapshot, Website, DummyUser
 
 class UsersViewSet(ModelViewSet): 
     queryset = AuthenFaceUser.objects.all()
@@ -17,3 +17,7 @@ class SnapshotViewSet(ModelViewSet):
 class WebsiteViewSet(ModelViewSet): 
     queryset = Website.objects.all()
     serializer_class = WebsiteSerializer
+
+class DummyUserViewSet(ModelViewSet): 
+    queryset = DummyUser.objects.all()
+    serializer_class = DummyUserSerializer
