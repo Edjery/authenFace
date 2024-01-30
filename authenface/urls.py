@@ -22,5 +22,6 @@ admin.site.index_title = 'Admin'
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include('API.urls'))
+    path('api/', include('API.urls')),
+    path('camera/', include('CameraApp.urls'))
 ] 
