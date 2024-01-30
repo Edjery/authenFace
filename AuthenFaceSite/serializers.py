@@ -9,7 +9,7 @@ class AuthenFaceUserSerializer(serializers.ModelSerializer):
 class UserImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserImage
-        fields = ['id', 'name']
+        fields = ['id', 'name', 'user']
 
 class SnapshotSerializer(serializers.ModelSerializer):
     class Meta:
