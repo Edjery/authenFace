@@ -22,7 +22,7 @@ def user_list(request):
         case _:
             return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
-@api_view(['GET', 'PUT'])
+@api_view(['GET', 'PUT', 'DELETE'])
 def user(request, id):
     authenFaceUser = get_object_or_404(AuthenFaceUser, pk=id)
     match request.method:
@@ -30,10 +30,13 @@ def user(request, id):
             serializer = AuthenFaceUserSerializer(authenFaceUser)
             return Response(serializer.data, status=status.HTTP_200_OK)
         case 'PUT':
-            serializer = AuthenFaceUserSerializer(authenFaceUser, data=request.data)
+            serializer = AuthenFaceUserSerializer(authenFaceUser, data=request.data, partial=True)
             serializer.is_valid(raise_exception=True)
-            serializer.save()
+            serializer.save(password=request.data.get('password'))
             return Response(serializer.data, status=status.HTTP_200_OK)
+        case 'DELETE':
+            authenFaceUser.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
         case _:
             return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
 

@@ -4,7 +4,7 @@ from .models import AuthenFaceUser, Snapshot, UserImage, Website
 class AuthenFaceUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = AuthenFaceUser
-        fields = ['id', 'email']
+        fields = ['id', 'email', 'password']
 
 class UserImageSerializer(serializers.ModelSerializer):
     class Meta:
