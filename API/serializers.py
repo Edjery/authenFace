@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import AuthenFaceUser, Snapshot, UserImage, Website
+from .models import AuthenFaceUser, Snapshot, UserImage, Website, DummyUser
 
 class AuthenFaceUserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -20,3 +20,8 @@ class WebsiteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Website
         fields = ['id', 'name', 'url', 'account_name', 'user', 'created_at']
+
+class DummyUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DummyUser
+        fields = ['id', 'email', 'password']

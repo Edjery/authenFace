@@ -22,5 +22,5 @@ admin.site.index_title = 'Admin'
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('authenface/', include('AuthenFaceSite.urls'))
+    path('api/', include('API.urls'))
 ] 

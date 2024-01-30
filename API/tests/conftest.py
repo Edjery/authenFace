@@ -1,5 +1,4 @@
 from rest_framework.test import APIClient
-from datetime import datetime
 import pytest
 
 @pytest.fixture
