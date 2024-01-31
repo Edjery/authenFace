@@ -7,11 +7,11 @@ import face_recognition
 from AntiSpoofingApp.test import test
 
 class VideoCamera():
-    def __init__(self, user_image_filename):
+    def __init__(self, user_name):
         self.video = cv2.VideoCapture(0)
         self.match = False
 
-        self.user_image_filename = user_image_filename
+        self.user_image_filename = f'{user_name}.png'
         path = os.path.join(settings.MEDIA_ROOT, 'UserImages')
         user_image_path = os.path.join(path, self.user_image_filename)
         
@@ -24,9 +24,6 @@ class VideoCamera():
             print('Encoding complete.')
         else:
             print('No Face Located')
-
-        self.snapshot_filename = ''
-        self.snapshot_path = ''
 
     def test_face(self, frame):
         label = test(
@@ -43,16 +40,12 @@ class VideoCamera():
     def capture_and_save_image(self, frame):
         print('Taking Snapshot')
         timestamp = timezone.now().strftime('%Y%m%d%H%M%S')
-        # fileName = f"{self.website.userID}_temp_image_{timestamp}.png"
-        self.snapshot_filename = f"_temp_image_{timestamp}.png"
-        print('Snapshot Taken: ' + self.snapshot_filename)
-
-        self.snapshot_path = os.path.join(settings.MEDIA_ROOT, 'Snapshots', self.snapshot_filename)
-        print("Inserted in directory:", self.snapshot_path)
-
-        # Capture and save the image using OpenCV
-        success = cv2.imwrite(self.snapshot_path, frame)
-        print("Snapshot Taken:", success)
+        snapshot_filename = f'{self.user_image_filename}_temp_image_{timestamp}.png'
+        print('Snapshot Taken: ' + snapshot_filename)
+        snapshot_path = os.path.join(settings.MEDIA_ROOT, 'Snapshots', snapshot_filename)
+        print('Inserted in directory:', snapshot_path)
+        success = cv2.imwrite(snapshot_path, frame)
+        print('Snapshot Taken:', success)
 
     def get_frame(self):
         success, frame = self.video.read()
@@ -70,7 +63,6 @@ class VideoCamera():
                         cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 2) 
                         self.match = True
                         # TODO, add return ok response then get back, add timeout too
-                        # return these self.snapshot_filename, self.snapshot_path, self.match, 
                     else:
                         cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 0, 255), 2) 
                         self.match = False

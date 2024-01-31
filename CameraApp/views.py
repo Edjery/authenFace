@@ -12,8 +12,8 @@ def gen(request, camera):
             b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
         
 def video_feed(request):
-    user_image_filename = 'EJ.jpg'
-    # TODO, get user image file name
+    # TODO, get username/email
+    user_name = 'EJ'
 
-    return StreamingHttpResponse(gen(request, VideoCamera(user_image_filename)),
+    return StreamingHttpResponse(gen(request, VideoCamera(user_name)),
         content_type='multipart/x-mixed-replace; boundary=frame')
