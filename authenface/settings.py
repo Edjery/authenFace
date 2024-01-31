@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'AuthenFaceSite',
     'DummySite',
     'CameraApp',
-    'face_recognition_models'
+    'face_recognition_models',
+    'AntiSpoofingApp',
 ]
 
 MIDDLEWARE = [

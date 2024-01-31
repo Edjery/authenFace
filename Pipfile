@@ -12,6 +12,7 @@ dlib = "*"
 face-recognition = "*"
 face-recognition-models = "*"
 setuptools = "*"
+torch = "*"
 
 [dev-packages]
 pytest = "*"
