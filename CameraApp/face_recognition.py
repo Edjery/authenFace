@@ -1,4 +1,4 @@
-import face_recognition
+# import face_recognition
 from django.conf import settings
 
 def init_face_recognition():
