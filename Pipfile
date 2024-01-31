@@ -7,6 +7,8 @@ name = "pypi"
 django = "*"
 djangorestframework = "*"
 opencv-python = "*"
+cmake = "*"
+dlib = "*"
 
 [dev-packages]
 pytest = "*"
