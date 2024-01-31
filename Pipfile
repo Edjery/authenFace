@@ -9,6 +9,7 @@ djangorestframework = "*"
 opencv-python = "*"
 cmake = "*"
 dlib = "*"
+face-recognition = "*"
 
 [dev-packages]
 pytest = "*"
