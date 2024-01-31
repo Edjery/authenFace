@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'AuthenFaceSite',
     'DummySite',
     'CameraApp',
+    'face_recognition_models'
 ]
 
 MIDDLEWARE = [

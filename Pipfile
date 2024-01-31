@@ -10,6 +10,8 @@ opencv-python = "*"
 cmake = "*"
 dlib = "*"
 face-recognition = "*"
+face-recognition-models = "*"
+setuptools = "*"
 
 [dev-packages]
 pytest = "*"
