@@ -31,8 +31,7 @@ class VideoCamera():
                     model_dir=os.path.join(settings.BASE_DIR, 'AntiSpoofingApp\\resources\\anti_spoof_models'),
                     device_id=0
                 )
-        is_real_face = True if label == 1 else False
-        return is_real_face
+        return True if label == 1 else False
 
     def __del__(self):
         self.video.release()
@@ -66,7 +65,7 @@ class VideoCamera():
                     else:
                         cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 0, 255), 2) 
                         self.match = False
-                        self.capture_and_save_image(frame)
+                        # self.capture_and_save_image(frame)
                         # TODO, add return bad response then get back, add timeout too
 
 

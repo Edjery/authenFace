@@ -25,7 +25,8 @@ admin.site.index_title = 'Admin'
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('API.urls')),
-    path('camera/', include('CameraApp.urls'))
+    path('camera/', include('CameraApp.urls')),
+    path("__reload__/", include("django_browser_reload.urls")),
 ]
 
 if settings.DEBUG:

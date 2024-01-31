@@ -13,11 +13,14 @@ face-recognition = "*"
 face-recognition-models = "*"
 setuptools = "*"
 torch = "*"
+django-tailwind = "*"
+django-browser-reload = "*"
 
 [dev-packages]
 pytest = "*"
 pytest-django = "*"
 pytest-watch = "*"
+npm = "*"
 
 [requires]
 python_version = "3.12"
