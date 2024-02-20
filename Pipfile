@@ -15,6 +15,7 @@ setuptools = "*"
 torch = "*"
 django-tailwind = "*"
 django-browser-reload = "*"
+django-cors-headers = "*"
 
 [dev-packages]
 pytest = "*"
