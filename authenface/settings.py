@@ -21,6 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-!9y1!7@u=9#kc+wh9c@f)!4y%=atwsk6ghqk=&9@c&ek%3oje^'
+JWT_SECRET = 'your_secret_key_here'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -44,7 +45,8 @@ INSTALLED_APPS = [
     'AntiSpoofingApp',
     'tailwind',
     'theme',
-     'django_browser_reload'
+     'django_browser_reload',
+     'pyjwt'
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True
