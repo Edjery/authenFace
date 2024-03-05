@@ -16,6 +16,7 @@ torch = "*"
 django-tailwind = "*"
 django-browser-reload = "*"
 django-cors-headers = "*"
+pyjwt = "*"
 
 [dev-packages]
 pytest = "*"
