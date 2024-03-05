@@ -59,6 +59,9 @@ def create_image_name(name): # TODO fix this later
 @api_view(['POST'])
 def register_user(request):
     if request.method == 'POST':
+        if request.data.get('password') != request.data.get('confirmPassword'):
+            return Response({'error' : 'password did not match'}, status=status.HTTP_400_BAD_REQUEST)          
+
         image_file = request.data.get('userImage')
         userName = request.data.get('name')
         userImageFileName = create_image_name(userName)
@@ -74,6 +77,10 @@ def register_user(request):
 
         if serializer.is_valid() and image_file:
             user = serializer.save()
+            userObject = AuthenFaceUser.objects.get(id = user.id)
+            userObject.password = make_password(user.password)
+            userObject.save()
+            print('password', userObject.password)
             token = generate_jwt_token(user.id, user.email)
 
             with open('Media/UserImages/' + userImageFileName, 'wb+') as destination:
