@@ -1,15 +1,15 @@
 from rest_framework.viewsets import ModelViewSet
 from .pagination import DefaultPagination
-from .serializers import AuthenFaceUserSerializer, UserImageSerializer, SnapshotSerializer, WebsiteSerializer, DummyUserSerializer
-from .models import AuthenFaceUser, UserImage, Snapshot, Website, DummyUser
+from .serializers import AuthenFaceUserSerializer, SnapshotSerializer, WebsiteSerializer, DummyUserSerializer
+from .models import AuthenFaceUser, Snapshot, Website, DummyUser
 
 class UsersViewSet(ModelViewSet): 
     queryset = AuthenFaceUser.objects.all()
     serializer_class = AuthenFaceUserSerializer
 
-class UserImageViewSet(ModelViewSet): 
-    queryset = UserImage.objects.all()
-    serializer_class = UserImageSerializer
+# class UserImageViewSet(ModelViewSet): 
+#     queryset = UserImage.objects.all()
+#     serializer_class = UserImageSerializer
 
 class SnapshotViewSet(ModelViewSet): 
     queryset = Snapshot.objects.all()

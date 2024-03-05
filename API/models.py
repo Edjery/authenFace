@@ -1,18 +1,20 @@
 from django.db import models
 
 class AuthenFaceUser(models.Model):
+    name = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
     password = models.CharField(max_length=50)
+    userImageName = models.CharField(max_length=100)
 
     def __str__(self) -> str:
         return self.email
 
-class UserImage(models.Model):
-    name = models.CharField(max_length=50)
-    user = models.OneToOneField(AuthenFaceUser, on_delete=models.CASCADE)
+# class UserImage(models.Model):
+#     name = models.CharField(max_length=50)
+#     user = models.OneToOneField(AuthenFaceUser, on_delete=models.CASCADE)
 
-    def __str__(self) -> str:
-        return self.name
+#     def __str__(self) -> str:
+#         return self.name
 
 class Snapshot(models.Model):
     name = models.CharField(max_length=50)

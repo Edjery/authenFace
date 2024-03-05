@@ -1,13 +1,13 @@
 from django.contrib import admin
-from .models import AuthenFaceUser, Snapshot, UserImage, Website
+from .models import AuthenFaceUser, Snapshot, Website
 
 @admin.register(AuthenFaceUser)
 class AuthenFaceUserAdmin(admin.ModelAdmin):
-    list_display = ('id', 'email')
+    list_display = ('id', 'name', 'email', 'password', 'userImageName')
 
-@admin.register(UserImage)
-class UserImageAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'user')
+# @admin.register(UserImage)
+# class UserImageAdmin(admin.ModelAdmin):
+#     list_display = ('id', 'name', 'user')
 
 @admin.register(Snapshot)
 class SnapshotsAdmin(admin.ModelAdmin):
