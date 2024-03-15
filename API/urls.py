@@ -13,8 +13,8 @@ router.register('websites', views.WebsiteViewSet)
 router.register('dummy-users', views.DummyUserViewSet)
 
 urlpatterns =  [
-    path('websites/user/<int:user_id>', views.WebsiteListByUser.as_view(), name='webs-list'),
-    path('snapshots/user/<int:user_id>', views.SnapshotListByUser.as_view(), name='snapshot-list-by-user'),
+    path('websites/user/<int:userId>', views.WebsiteListByUser.as_view(), name='webs-list'),
+    path('snapshots/user/<int:userId>', views.SnapshotListByUser.as_view(), name='snapshot-list-by-user'),
     path('register', AppViews.register_user, name='register_user'),  
     path('login', AppViews.login_user   , name='login_user'),  
 ] + router.urls

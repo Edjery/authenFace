@@ -1,3 +1,7 @@
+import os
+from django.conf import settings
+from django.core.files import File
+from django.http import FileResponse, HttpResponse
 from rest_framework.viewsets import ModelViewSet
 from rest_framework import generics
 from rest_framework.response import Response
@@ -30,9 +34,9 @@ class WebsiteListByUser(generics.ListCreateAPIView):
     pagination_class = DefaultPagination
 
     def get_queryset(self):
-        user_id = self.kwargs.get('user_id') 
-        if user_id is not None:
-            return Website.objects.filter(user=user_id)
+        userId = self.kwargs.get('userId') 
+        if userId is not None:
+            return Website.objects.filter(user=userId)
         else:
             return Website.objects.all()
     
@@ -41,8 +45,25 @@ class SnapshotListByUser(generics.ListAPIView):
     pagination_class = DefaultPagination
 
     def get_queryset(self):
-        user_id = self.kwargs.get('user_id') 
-        if user_id is not None:
-            return Snapshot.objects.filter(user=user_id)
+        fileImageName = 'EJ.png_temp_image_20240315015853.png'
+        userId = self.kwargs.get('userId') 
+        if userId is not None:
+            user = AuthenFaceUser.objects.get(id=userId)
+            # generate_snapshot(fileImageName, user)
+            return Snapshot.objects.filter(user=userId)
         else:
             return Snapshot.objects.all()
+
+def generate_snapshot(imageFilename, user):
+    imagePath = os.path.join(settings.MEDIA_ROOT, 'TempImages', imageFilename)
+    
+    if not os.path.exists(imagePath):
+        print(f"Image file '{imageFilename}' not found in MEDIA_ROOT.")
+        return None
+    
+    with open(imagePath, 'rb') as imageFIle:
+        snapshot = Snapshot(name=imageFilename, user=user)
+        snapshot.image.save(imageFilename, File(imageFIle))
+        snapshot.save()
+        
+        return snapshot

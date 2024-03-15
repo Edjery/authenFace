@@ -10,6 +10,8 @@ class VideoCamera():
     def __init__(self, user_name):
         self.video = cv2.VideoCapture(0)
         self.match = False
+        self.snapshotTaken = False
+        self.snapshotName = ''
 
         self.user_image_filename = f'{user_name}.png'
         path = os.path.join(settings.MEDIA_ROOT, 'UserImages')
@@ -39,9 +41,9 @@ class VideoCamera():
     def capture_and_save_image(self, frame):
         print('Taking Snapshot')
         timestamp = timezone.now().strftime('%Y%m%d%H%M%S')
-        snapshot_filename = f'{self.user_image_filename}_temp_image_{timestamp}.png'
-        print('Snapshot Taken: ' + snapshot_filename)
-        snapshot_path = os.path.join(settings.MEDIA_ROOT, 'Snapshots', snapshot_filename)
+        self.snapshot_filename = f'{self.user_image_filename}_temp_image_{timestamp}.png'
+        print('Snapshot Taken: ' + self.snapshot_filename)
+        snapshot_path = os.path.join(settings.MEDIA_ROOT, 'TempImages', self.snapshot_filename)
         print('Inserted in directory:', snapshot_path)
         success = cv2.imwrite(snapshot_path, frame)
         print('Snapshot Taken:', success)
@@ -51,6 +53,10 @@ class VideoCamera():
         is_real_face = self.test_face(frame)
         currrent_face_location = face_recognition.face_locations(frame)
 
+        if self.snapshotTaken == False:
+            self.snapshotTaken = True
+            self.capture_and_save_image(frame)
+
         if currrent_face_location:
             current_face_encoding = face_recognition.face_encodings(frame, currrent_face_location)
             matches = face_recognition.compare_faces(self.face_encodings, current_face_encoding, 0.5)
@@ -58,16 +64,14 @@ class VideoCamera():
             match_index = np.argmin(face_distance)
 
             for y1, x2, y2, x1 in currrent_face_location:
-                    if (matches[match_index] and is_real_face): 
-                        cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 2) 
-                        self.match = True
-                        # TODO, add return ok response then get back, add timeout too
-                    else:
-                        cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 0, 255), 2) 
-                        self.match = False
-                        # self.capture_and_save_image(frame)
-                        # TODO, add return bad response then get back, add timeout too
-
+                if (matches[match_index] and is_real_face): 
+                    cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 2) 
+                    self.match = True
+                    # TODO, add return ok response then get back, add timeout too
+                else:
+                    cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 0, 255), 2) 
+                    self.match = False
+                    # TODO, add return bad response then get back, add timeout too
 
         flip_frame = cv2.flip(frame, 1) # Flips camera so that it will show a mirror instead
         _, jpeg = cv2.imencode('.jpeg', flip_frame)
