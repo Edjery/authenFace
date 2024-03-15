@@ -1,9 +1,18 @@
+import os
 from django.db import models
+from django.utils import timezone
+
+def renameImage(instance, filename):
+    extension = filename.split('.')[-1]
+    name = instance.name
+    timestamp = timezone.now().strftime('%Y%m%d%H%M%S')
+    newFileName = f'{name.lower()}_profile_image_{timestamp}.png'
+    return os.path.join('UserImages/', newFileName)
 
 class AuthenFaceUser(models.Model):
     name = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
-    image = models.ImageField(upload_to='snapshots/')
+    image = models.ImageField(upload_to=renameImage, blank=True, null=True)
     password = models.CharField(max_length=50)
 
     def __str__(self) -> str:

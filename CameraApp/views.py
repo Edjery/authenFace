@@ -61,17 +61,12 @@ def login_user(request):
     else:
         return Response({'error': 'Method not allowed'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
-def create_image_name(name): # TODO fix this later
-    timestamp = timezone.now().strftime('%Y%m%d%H%M%S')
-    return f'{name.lower()}_profile_image_{timestamp}.png'
-
 @api_view(['POST'])
 def register_user(request):
     if request.method == 'POST':
-        image_file = request.data.get('userImage')
+        imageFile = request.data.get('userImage')
         userName = request.data.get('name')
         password = request.data.get('password')
-        userImageFileName = create_image_name(userName)
     
         if password != request.data.get('confirmPassword'):
             return Response({'error' : 'password did not match'}, status=status.HTTP_400_BAD_REQUEST)          
@@ -85,21 +80,17 @@ def register_user(request):
             'name': userName,
             'email': request.data.get('email'),
             'password': password,
-            'userImageName': userImageFileName
+            'image': imageFile
         }
 
         serializer = AuthenFaceUserSerializer(data=userInput)
 
-        if serializer.is_valid() and image_file:
+        if serializer.is_valid() and imageFile:
             user = serializer.save()
             userObject = AuthenFaceUser.objects.get(id = user.id)
             userObject.password = make_password(user.password)
             userObject.save()
             token = generate_jwt_token(user.id, user.email)
-
-            with open('Media/UserImages/' + userImageFileName, 'wb+') as destination:
-                for chunk in image_file.chunks():
-                    destination.write(chunk)
             
             userData = {
                 'id': user.id,
