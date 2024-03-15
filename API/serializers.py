@@ -4,17 +4,12 @@ from .models import AuthenFaceUser, Snapshot, Website, DummyUser
 class AuthenFaceUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = AuthenFaceUser
-        fields = ['id', 'name', 'email', 'password', 'userImageName']
-
-# class UserImageSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = UserImage
-#         fields = ['id', 'name', 'user']
+        fields = ['id', 'name', 'email', 'image', 'password',]
 
 class SnapshotSerializer(serializers.ModelSerializer):
     class Meta:
         model = Snapshot
-        fields = ['id', 'name', 'user', 'created_at']
+        fields = ['id', 'name', 'image', 'user', 'created_at']
 
 class WebsiteSerializer(serializers.ModelSerializer):
     class Meta:
