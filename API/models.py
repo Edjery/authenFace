@@ -2,7 +2,7 @@ import os
 from django.db import models
 from django.utils import timezone
 
-def renameImage(instance, filename):
+def renameImage(instance):
     name = instance.name
     timestamp = timezone.now().strftime('%Y%m%d%H%M%S')
     newFileName = f'{name.lower()}_profile_image_{timestamp}.png'
