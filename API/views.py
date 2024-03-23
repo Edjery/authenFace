@@ -1,5 +1,6 @@
 import os
 import jwt
+import requests
 
 from datetime import datetime, timedelta
 
@@ -8,7 +9,7 @@ from django.conf import settings
 from django.core import exceptions
 from django.core.files import File
 from django.contrib.auth.hashers import check_password
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 
 from rest_framework.decorators import api_view
 from rest_framework.viewsets import ModelViewSet
@@ -20,6 +21,8 @@ from .pagination import DefaultPagination
 from .serializers import AuthenFaceUserSerializer, SnapshotSerializer, WebsiteSerializer, DummyUserSerializer
 from .models import AuthenFaceUser, Snapshot, Website, DummyUser
 
+
+from django.views.decorators.csrf import csrf_exempt
 # TODO add a view template to list all apis
 
 def generate_jwt_token(user_id, email, expiration_time_minutes = 30):
@@ -135,3 +138,24 @@ def generate_snapshot(imageFilename, user):
         snapshot.save()
         
         return snapshot
+
+@api_view(['POST'])
+def authenticate_website(request):
+    if request.method == 'POST':
+        required_inputs = ['email', 'password', 'websiteUrl', 'websiteAPI']
+        missing_inputs = [field for field in required_inputs if not request.data.get(field)]
+        
+        email = request.data.get('email')
+        password = request.data.get('password')
+        website_url = request.data.get('websiteUrl')
+        website_api = request.data.get('websiteAPI')
+        print(email, password, website_url, website_api)
+
+        if missing_inputs:
+            return Response({"error": "Missing input data", "missing_inputs": missing_inputs}, status=400)
+        
+        # website = get_object_or_404(Website, url=website_url, account_name=email)
+        return redirect('/camera')    
+    return Response({"error": "Method Not Allowed"}, status=405)
+
+
