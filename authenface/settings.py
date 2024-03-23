@@ -46,7 +46,8 @@ INSTALLED_APPS = [
     'tailwind',
     'theme',
      'django_browser_reload',
-     'jwt'
+     'jwt',
+     'requests'
 ]
 
 CORS_ORIGIN_ALLOW_ALL = True

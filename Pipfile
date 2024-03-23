@@ -17,6 +17,7 @@ django-tailwind = "*"
 django-browser-reload = "*"
 django-cors-headers = "*"
 pyjwt = "*"
+requests = "*"
 
 [dev-packages]
 pytest = "*"
