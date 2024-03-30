@@ -30,7 +30,7 @@ class Website(models.Model):
     
 class Snapshot(models.Model):
     name = models.CharField(max_length=50)
-    image = models.ImageField(upload_to='snapshots/')
+    image = models.ImageField(upload_to='Snapshots/')
     user = models.ForeignKey(AuthenFaceUser, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
 
