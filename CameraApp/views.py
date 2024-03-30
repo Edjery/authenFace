@@ -1,9 +1,11 @@
 import os
-import cv2
+import jwt
 
-from django.http import HttpResponse, StreamingHttpResponse
+from datetime import datetime, timedelta
+
+from django.conf import settings
+from django.http import StreamingHttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
-from django.core.files import File
 
 from API.models import AuthenFaceUser, Snapshot
 from CameraApp.camera import VideoCamera 
@@ -48,10 +50,6 @@ def delete_file(imagePath):
     except OSError as e:
         print(f"Error deleting {imagePath}: {e}")
 
-import jwt
-from datetime import datetime, timedelta
-from django.conf import settings
-
 def generate_jwt_token(email, expiration_time_minutes = 30):
     expiration_time = datetime.now() + timedelta(minutes=expiration_time_minutes)
     payload = {'email': email, 'exp' : expiration_time}
@@ -69,13 +67,13 @@ def authenticate(request):
         user = get_object_or_404(AuthenFaceUser, email = current_user.email)
 
         if match is None or match is False:
-            print('creating snapshot')
+            print('creating snapshot...')
             new_snapshot = Snapshot(name = snapshot_name, user = user, image = snapshot_path)
             new_snapshot.save()
             return redirect(redirect_url)
     except NameError:
         user = get_object_or_404(AuthenFaceUser, email = current_user.email)
-        print('creating snapshot')
+        print('creating snapshot...')
 
         new_snapshot = Snapshot(name = snapshot_name, user = user)
         new_snapshot.save()

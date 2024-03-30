@@ -3,7 +3,7 @@ import numpy as np
 import cv2
 import face_recognition
 
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from django.conf import settings
 
