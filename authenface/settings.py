@@ -15,7 +15,6 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
@@ -26,6 +25,7 @@ JWT_SECRET = 'your_secret_key_here'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+# ALLOWED_HOSTS = ['192.168.1.169']
 ALLOWED_HOSTS = []
 
 # Application definition
@@ -53,9 +53,11 @@ INSTALLED_APPS = [
 CORS_ORIGIN_ALLOW_ALL = True
 
 TAILWIND_APP_NAME = 'theme'
+
 INTERNAL_IPS = [
     "127.0.0.1",
 ]
+
 NPM_BIN_PATH = "C:/Program Files/nodejs/npm.cmd"
 
 MIDDLEWARE = [
