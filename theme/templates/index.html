@@ -1,19 +1,64 @@
-{% load static tailwind_tags %}
 <!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
     <title>Authenticating...</title>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    {% tailwind_css %}
-  </head>
+    <style>
+      body {
+        background-color: black; /* Set the background color to black */
+        display: flex;
+        flex-direction: column; /* Display content vertically */
+        justify-content: center;
+        align-items: center;
+        height: 100vh; /* Set the body height to the full viewport height */
+        margin: 0; /* Remove default margin to avoid unwanted spacing */
+      }
 
-  <body class="bg-black font-serif leading-normal tracking-normal">
-    <div class="container mx-auto">
-      <section class="flex items-center justify-center h-screen">
-        <img src="{% url 'video_feed' %}" />
-      </section>
+      h1,
+      h4 {
+        color: white; /* Set the color of the h1 text to white */
+      }
+
+      /* Styling for the button container */
+      .button-container {
+        margin-top: 20px; /* Add some space above the buttons */
+        text-align: center; /* Center the buttons horizontally */
+      }
+
+      /* Styling for the button */
+      .nice-button {
+        display: inline-block; /* Display buttons horizontally */
+        margin-right: 10px; /* Add some space between the buttons */
+        padding: 10px 20px;
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        text-decoration: none;
+      }
+
+      /* Style when hovering over the button */
+      .nice-button:hover {
+        background-color: #45a049;
+      }
+
+      /* Style when the button is clicked */
+      .nice-button:active {
+        background-color: #3e8e41;
+      }
+    </style>
+  </head>
+  <body>
+    <h4>Click log in when ready</h4>
+    <img
+      id="camera-feed"
+      src="{% url 'video_feed' %}?email={{ email }}&redirect_url={{ redirect_url }}"
+    />
+    <br />
+    <div class="button-container">
+      <a href="{% url 'authenticate' %}" class="nice-button">Log in</a>
     </div>
   </body>
 </html>
