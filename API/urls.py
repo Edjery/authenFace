@@ -13,4 +13,5 @@ urlpatterns =  [
     path('snapshots/user/<int:userId>', views.SnapshotListByUser.as_view(), name='snapshot-list-by-user'),
     path('login', views.login_user , name='login_user'),  
     path('authenticate/', views.authenticate_website, name='authenticate_website'),
+    path('token/', views.TokenView.as_view(), name='token'),
 ] + router.urls

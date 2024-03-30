@@ -1,22 +1,49 @@
-from django.utils import timezone
-from django.conf import settings
 import os
 import numpy as np
 import cv2
 import face_recognition
+
+from django.shortcuts import get_object_or_404, redirect
+from django.utils import timezone
+from django.conf import settings
+
+from API.models import Website
 from AntiSpoofingApp.test import test
 
+camera_threshold = 0.6
 class VideoCamera():
-    def __init__(self, user_name):
+    def __init__(self, user_email, redirect_url):
+        print('init camera...')
         self.video = cv2.VideoCapture(0)
-        self.match = False
-        self.snapshotTaken = False
-        self.snapshotName = ''
+        self.email = user_email
+        self.redirect_url = redirect_url
+        self.match = None
 
-        self.user_image_filename = f'{user_name}.png'
-        path = os.path.join(settings.MEDIA_ROOT, 'UserImages')
-        user_image_path = os.path.join(path, self.user_image_filename)
+        self.snapshotTaken = False
+        self.snapshot_name = ''
+        self.snapshot_filename = ''
+        self.snapshot_path  = ''
+
+        self.website = None
+        self.user = None
+
+        print('finding user...')
+        try:
+            self.website = get_object_or_404(Website, account_name=self.email)
+            self.user = self.website.user
+        except Website.DoesNotExist:
+            print("error in finding user")
         
+        if (self.website == None):
+            print("error in finding user")
+        
+        image = self.website.user.image
+
+        print('finding image...')
+        path = os.path.join(settings.MEDIA_ROOT)
+        user_image_path = os.path.join(path, str(image))
+        
+        print('loading image...')
         user_image = face_recognition.load_image_file(user_image_path)
         image_face_locations = face_recognition.face_locations(user_image)
 
@@ -41,11 +68,12 @@ class VideoCamera():
     def capture_and_save_image(self, frame):
         print('Taking Snapshot')
         timestamp = timezone.now().strftime('%Y%m%d%H%M%S')
-        self.snapshot_filename = f'{self.user_image_filename}_temp_image_{timestamp}.png'
+        self.snapshot_name = f'{self.website.user.name}_snapshot_{timestamp}.png'
+        self.snapshot_filename = f'{self.website.user.name}_temp_image_{timestamp}.png'
         print('Snapshot Taken: ' + self.snapshot_filename)
-        snapshot_path = os.path.join(settings.MEDIA_ROOT, 'TempImages', self.snapshot_filename)
-        print('Inserted in directory:', snapshot_path)
-        success = cv2.imwrite(snapshot_path, frame)
+        self.snapshot_path = os.path.join(settings.MEDIA_ROOT, 'TempImages', self.snapshot_filename)
+        print('Inserted in directory:', self.snapshot_path)
+        success = cv2.imwrite(self.snapshot_path, frame)
         print('Snapshot Taken:', success)
 
     def get_frame(self):
@@ -59,7 +87,7 @@ class VideoCamera():
 
         if currrent_face_location:
             current_face_encoding = face_recognition.face_encodings(frame, currrent_face_location)
-            matches = face_recognition.compare_faces(self.face_encodings, current_face_encoding, 0.5)
+            matches = face_recognition.compare_faces(self.face_encodings, current_face_encoding, camera_threshold)
             face_distance = face_recognition.face_distance(self.face_encodings, current_face_encoding)
             match_index = np.argmin(face_distance)
 
@@ -67,11 +95,11 @@ class VideoCamera():
                 if (matches[match_index] and is_real_face): 
                     cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 2) 
                     self.match = True
-                    # TODO, add return ok response then get back, add timeout too
-                else:
+
+                else:        
                     cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 0, 255), 2) 
                     self.match = False
-                    # TODO, add return bad response then get back, add timeout too
+
 
         flip_frame = cv2.flip(frame, 1) # Flips camera so that it will show a mirror instead
         _, jpeg = cv2.imencode('.jpeg', flip_frame)
