@@ -48,6 +48,25 @@
       .nice-button:active {
         background-color: #3e8e41;
       }
+
+      /* Styling for the privacy text */
+      .privacy-text {
+        color: white; /* Set text color to white */
+        font-size: 14px;
+        margin-top: 40px; /* Add space between the button and the text */
+        text-align: center;
+      }
+
+      /* Styling for the privacy link */
+      .privacy-link {
+        color: #4caf50; /* Set link color to green */
+        text-decoration: none; /* Remove underline from the link */
+      }
+
+      /* Style when hovering over the privacy link */
+      .privacy-link:hover {
+        text-decoration: underline; /* Add underline on hover */
+      }
     </style>
   </head>
   <body>
@@ -59,6 +78,9 @@
     <br />
     <div class="button-container">
       <a href="{% url 'authenticate' %}" class="nice-button">Log in</a>
+    </div>
+    <div class="privacy-text">
+      By logging in, you agree to our <a href="https://lawphil.net/statutes/repacts/ra2012/ra_10173_2012.html" class="privacy-link">Privacy Policy</a>.
     </div>
   </body>
 </html>
