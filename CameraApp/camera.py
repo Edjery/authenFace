@@ -27,6 +27,8 @@ class VideoCamera():
         self.website = None
         self.user = None
 
+        self.frame_color = (0, 0, 255)
+
         print('finding user...')
         try:
             self.website = get_object_or_404(Website, account_name=self.email)
@@ -76,8 +78,27 @@ class VideoCamera():
         success = cv2.imwrite(self.snapshot_path, frame)
         print('Snapshot Taken:', success)
 
+    def draw_center_rectangle(self, frame, color):
+        x1, y1, x2, y2 = 200, 200, 400, 400  # Example face coordinates
+        
+        frame_center_x = frame.shape[1] // 2
+        frame_center_y = frame.shape[0] // 2
+
+        # Calculate the dimensions of the rectangle
+        rect_width = x2 - x1
+        rect_height = y2 - y1
+
+        # Calculate the coordinates to put the rectangle in the middle
+        rect_center_x = frame_center_x - rect_width // 2
+        rect_center_y = frame_center_y - rect_height // 2
+
+        # Draw the rectangle
+        cv2.rectangle(frame, (rect_center_x, rect_center_y), (rect_center_x + rect_width, rect_center_y + rect_height), color, 2)
+
     def get_frame(self):
         success, frame = self.video.read()
+        self.draw_center_rectangle(frame, self.frame_color)
+
         is_real_face = self.test_face(frame)
         currrent_face_location = face_recognition.face_locations(frame)
 
@@ -91,15 +112,13 @@ class VideoCamera():
             face_distance = face_recognition.face_distance(self.face_encodings, current_face_encoding)
             match_index = np.argmin(face_distance)
 
-            for y1, x2, y2, x1 in currrent_face_location:
-                if (matches[match_index] and is_real_face): 
-                    cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 255, 0), 2) 
-                    self.match = True
+            if (matches[match_index] and is_real_face): 
+                self.frame_color = (0, 255, 0)
+                self.match = True
 
-                else:        
-                    cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 0, 255), 2) 
-                    self.match = False
-
+            else:        
+                self.frame_color = (0, 0, 255)
+                self.match = False
 
         flip_frame = cv2.flip(frame, 1) # Flips camera so that it will show a mirror instead
         _, jpeg = cv2.imencode('.jpeg', flip_frame)
